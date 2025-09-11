@@ -3,60 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gốm Sứ Cao Cấp</title>
+  <title>Cửa Hàng Gốm Sứ Cao Cấp</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header -->
+
   <header>
-    <div class="logo">🏺 Gốm Sứ</div>
-    <nav>
-      <a href="#home">Trang chủ</a>
-      <a href="#products">Sản phẩm</a>
-      <a href="#contact">Liên hệ</a>
-    </nav>
+    <h1>🏺 Cửa Hàng Gốm Sứ Cao Cấp</h1>
   </header>
 
-  <!-- Banner -->
-  <section class="banner" id="home">
-    <h1>Bộ Sưu Tập Gốm Sứ Cao Cấp</h1>
-    <p>Tinh hoa thủ công – Sang trọng – Đẳng cấp</p>
-  </section>
+  <div class="banner">
+    Bộ sưu tập gốm nghệ thuật độc đáo ✨
+  </div>
 
-  <!-- Sản phẩm -->
-  <section id="products">
+  <div class="container">
     <h2>Sản phẩm nổi bật</h2>
-    <div class="product-grid">
-      <div class="product-card">
-        <img src="https://via.placeholder.com/250" alt="Bình gốm">
-        <h3>Bình gốm họa tiết</h3>
-        <p>Giá: 5,000,000đ</p>
+    <div class="products">
+      
+      <!-- Sản phẩm 1 -->
+      <div class="product">
+        <img src="images/binh-gom.jpg" alt="Bình gốm">
+        <div class="product-content">
+          <h3>Bình Gốm Cổ Điển</h3>
+          <p>Hoa văn thủ công tinh xảo, thích hợp trưng bày phòng khách.</p>
+          <button class="btn-buy" onclick="showPhone(this)">Mua ngay</button>
+          <div class="phone">
+            <a href="tel:+84987654321">📞 Gọi ngay: 0987 654 321</a>
+          </div>
+        </div>
       </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/250" alt="Tượng gốm">
-        <h3>Tượng gốm nghệ thuật</h3>
-        <p>Giá: 8,000,000đ</p>
-      </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/250" alt="Bộ ấm chén">
-        <h3>Bộ ấm chén gốm</h3>
-        <p>Giá: 2,500,000đ</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- Footer -->
-  <footer id="contact">
-    <p>📍 Địa chỉ: Làng gốm Bát Tràng, Hà Nội</p>
-    <p>📞 Hotline: <a href="tel:0123456789">0123 456 789</a></p>
-    <p>© 2025 Gốm Sứ Cao Cấp</p>
+      <!-- Sản phẩm 2 -->
+      <div class="product">
+        <img src="images/tuong-gom.jpg" alt="Tượng gốm">
+        <div class="product-content">
+          <h3>Tượng Gốm Nghệ Thuật</h3>
+          <p>Biểu tượng phong thủy, mang lại may mắn và tài lộc.</p>
+          <button class="btn-buy" onclick="showPhone(this)">Mua ngay</button>
+          <div class="phone">
+            <a href="tel:+84987654321">📞 Gọi ngay: 0987 654 321</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sản phẩm 3 -->
+      <div class="product">
+        <img src="images/am-tra.jpg" alt="Bộ ấm trà gốm">
+        <div class="product-content">
+          <h3>Bộ Ấm Trà Gốm</h3>
+          <p>Thiết kế sang trọng, thưởng trà cùng gia đình và bạn bè.</p>
+          <button class="btn-buy" onclick="showPhone(this)">Mua ngay</button>
+          <div class="phone">
+            <a href="tel:+84987654321">📞 Gọi ngay: 0987 654 321</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Cửa Hàng Gốm Sứ Cao Cấp | Liên hệ: 0987 654 321
   </footer>
 
-  <!-- Nút liên hệ nổi -->
-  <div class="floating-buttons">
-    <a href="tel:0123456789" class="call">📞</a>
-    <a href="https://zalo.me/0123456789" target="_blank" class="zalo">💬</a>
-    <a href="https://m.me/username" target="_blank" class="messenger">📱</a>
-  </div>
+  <script>
+    function showPhone(btn) {
+      let phone = btn.nextElementSibling;
+      phone.style.display = "block";
+    }
+  </script>
+
 </body>
 </html>
