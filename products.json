@@ -1,42 +1,50 @@
 [
   {
-    "img": "images/1.jpg",
-    "name": "Tượng",
-    "size": "Cao 75cm",
-    "price": "19,000,000₫",
-    "category": "tuong",
-    "desc": "Tượng gốm men rạn, trưng bày đẹp."
-  },
-  {
-    "img": "images/1.jpg",
-    "name": "Tam Đa",
-    "size": "Cao 75cm",
-    "price": "19,000,000₫",
+    "img": "images/M28.jpg",
+    "name": "Bộ Tam Đa M28",
+    "size": "Cao 50cm",
+    "price": "12,500,000₫",
     "category": "tamda",
-    "desc": "Bộ tượng Tam Đa gốm men rạn, tượng trưng Phúc - Lộc - Thọ."
+    "desc": "Bộ tượng Tam Đa phong thủy M28, mang ý nghĩa Phúc - Lộc - Thọ."
   },
   {
-    "img": "images/2.jpg",
-    "name": "Lục Bình",
+    "img": "images/M28.jpg",
+    "name": "Lục Bình M28",
     "size": "Cao 2m2",
     "price": "120,000,000₫",
     "category": "lucbinh",
     "desc": "Đôi lục bình men xanh, họa tiết sơn thủy cổ kính."
   },
   {
-    "img": "images/3.jpg",
-    "name": "Chóe",
+    "img": "images/M30.jpeg",
+    "name": "Di Lặc M30",
     "size": "Cao 50cm",
     "price": "8,500,000₫",
-    "category": "choe",
-    "desc": "Chóe gốm cổ men rạn."
+    "category": "tuong",
+    "desc": "Tượng Di Lặc gốm sứ, nụ cười hạnh phúc."
   },
   {
-    "img": "images/3.jpg",
-    "name": "Hút Lộc",
-    "size": "Cao 50cm",
-    "price": "8,500,000₫",
-    "category": "hutloc",
-    "desc": "Chóe hút lộc, gốm men rạn."
+    "img": "images/M31.jpg",
+    "name": "Bộ Tam Đa M31",
+    "size": "Cao 73cm",
+    "price": "30,000,000₫",
+    "category": "tamda",
+    "desc": "Bộ Tam Đa M31 với đường nét tinh xảo."
+  },
+  {
+    "img": "images/M32.jpg",
+    "name": "Bộ Tam Đa M32",
+    "size": "Cao 75cm",
+    "price": "19,000,000₫",
+    "category": "tamda",
+    "desc": "Bộ Tam Đa M32, gốm men rạn cao cấp."
+  },
+  {
+    "img": "images/M33.jpg",
+    "name": "Tranh Sơn Thủy M33",
+    "size": "2m33 x 1.1m",
+    "price": "Liên hệ",
+    "category": "tranh233x133",
+    "desc": "Tranh sơn thủy hữu tình, nét vẽ thủ công tinh xảo."
   }
 ]
