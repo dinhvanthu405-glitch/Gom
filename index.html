@@ -6,9 +6,8 @@
 <title>Gốm Sứ Trung Quốc</title>
 <style>
 body { font-family:"Segoe UI",Arial,sans-serif; background:#f9f9f9; margin:0; padding:0; color:#333;}
-.topbar {background:linear-gradient(90deg,#d0ebff,#fefefe); text-align:center; padding:16px; font-size:20px; font-weight:bold; color:#2c3e50; border-bottom:1px solid #ddd; position:relative;}
+.topbar {background:linear-gradient(90deg,#d0ebff,#fefefe); text-align:center; padding:16px; font-size:20px; font-weight:bold; color:#2c3e50; border-bottom:1px solid #ddd;}
 .topbar span {display:block; font-size:14px; font-weight:normal; margin-top:4px; color:#555;}
-#form-toggle {position:absolute; top:16px; right:16px; font-size:24px; cursor:pointer; color:#4a90e2;}
 header {background:#fff; padding:12px; box-shadow:0 1px 5px rgba(0,0,0,0.05); position:sticky; top:0; z-index:1000;}
 .menu {display:flex; flex-wrap:wrap; gap:8px; justify-content:center;}
 .menu button {padding:6px 12px; border:none; background:#eef5ff; border-radius:20px; cursor:pointer; font-size:13px; color:#34495e; transition:all 0.3s;}
@@ -30,14 +29,6 @@ header {background:#fff; padding:12px; box-shadow:0 1px 5px rgba(0,0,0,0.05); po
 .call-btn:hover {background:#218838; transform:scale(1.1);}
 .zalo-btn {background:#0077ff;}
 .zalo-btn:hover {background:#005fcc; transform:scale(1.1);}
-
-/* Form thêm sản phẩm */
-#add-form-container {position:absolute; top:70px; left:50%; transform:translateX(-50%); width:95%; max-width:450px; background:#fff; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.2); padding:20px; opacity:0; pointer-events:none; transition:all 0.3s; z-index:1001;}
-#add-form-container.active {opacity:1; pointer-events:auto;}
-.add-form h3 {margin-top:0; font-size:18px; text-align:center;}
-.add-form input, .add-form textarea {width:100%; padding:12px; margin:6px 0 12px; border:1px solid #ccc; border-radius:8px; font-size:15px;}
-.add-form button {width:100%; padding:12px; background:#4a90e2; color:#fff; border:none; border-radius:25px; cursor:pointer; font-size:16px; transition:0.3s;}
-.add-form button:hover {background:#357ab8;}
 </style>
 </head>
 <body>
@@ -45,21 +36,6 @@ header {background:#fff; padding:12px; box-shadow:0 1px 5px rgba(0,0,0,0.05); po
 <div class="topbar">
   🏺 Gốm Sứ Trung Quốc
   <span>Liên hệ: 0816658163</span>
-  <div id="form-toggle">⚙️</div>
-</div>
-
-<div id="add-form-container">
-  <div class="add-form">
-    <h3>Thêm sản phẩm</h3>
-    <input type="password" id="form-password" placeholder="Nhập mật khẩu để mở">
-    <input type="text" id="prod-img" placeholder="Link ảnh">
-    <input type="text" id="prod-name" placeholder="Tên sản phẩm">
-    <input type="text" id="prod-size" placeholder="Kích thước/Size">
-    <input type="text" id="prod-price" placeholder="Giá">
-    <input type="text" id="prod-category" placeholder="Category (không dấu)">
-    <textarea id="prod-desc" placeholder="Mô tả sản phẩm"></textarea>
-    <button onclick="submitProduct()">Thêm sản phẩm</button>
-  </div>
 </div>
 
 <header>
@@ -92,8 +68,7 @@ header {background:#fff; padding:12px; box-shadow:0 1px 5px rgba(0,0,0,0.05); po
 </div>
 
 <script>
-const PASSWORD = '1234';
-const productsURL = 'https://github.com/dinhvanthu405-glitch/Gom/blob/main/products.json'; // thay bằng link JSON của bạn
+const productsURL = 'https://github.com/dinhvanthu405-glitch/Gom/blob/main/products.json'; // Thay bằng link JSON thật
 let productsData = [];
 
 // Load sản phẩm từ GitHub JSON
@@ -128,32 +103,6 @@ function renderProducts(list){
   });
 }
 
-// Thêm sản phẩm (chỉ hiển thị local, cần commit JSON trên GitHub để khách hàng thấy)
-function submitProduct(){
-  const pwd = document.getElementById('form-password').value.trim();
-  if(pwd !== PASSWORD){ alert('Sai mật khẩu!'); return;}
-
-  const img=document.getElementById('prod-img').value.trim();
-  const name=document.getElementById('prod-name').value.trim();
-  const size=document.getElementById('prod-size').value.trim();
-  const price=document.getElementById('prod-price').value.trim();
-  const category=document.getElementById('prod-category').value.trim().toLowerCase();
-  const desc=document.getElementById('prod-desc').value.trim();
-  if(!img||!name||!size||!price||!category){ alert('Điền đủ thông tin!'); return;}
-
-  productsData.push({img,name,size,price,category,desc});
-  renderProducts(productsData);
-
-  alert('Đã thêm sản phẩm! Nhớ commit vào products.json trên GitHub để khách hàng thấy.');
-  document.getElementById('prod-img').value='';
-  document.getElementById('prod-name').value='';
-  document.getElementById('prod-size').value='';
-  document.getElementById('prod-price').value='';
-  document.getElementById('prod-category').value='';
-  document.getElementById('prod-desc').value='';
-  document.getElementById('add-form-container').classList.remove('active');
-}
-
 // Filter sản phẩm
 function filterProducts(category, btn){
   document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
@@ -162,14 +111,8 @@ function filterProducts(category, btn){
   renderProducts(filtered);
 }
 
-// Mở form
-document.getElementById('form-toggle').addEventListener('click', ()=>{
-  document.getElementById('add-form-container').classList.toggle('active');
-});
-
 // Load sản phẩm khi mở web
 loadProducts();
 </script>
 </body>
 </html>
-
