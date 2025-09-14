@@ -93,24 +93,18 @@ header {background:#fff; padding:12px; box-shadow:0 1px 5px rgba(0,0,0,0.05); po
 
 <script>
 const PASSWORD = '1234';
+const productsURL = 'https://raw.githubusercontent.com/username/repo/main/products.json'; // thay bằng link JSON của bạn
 let productsData = [];
 
-// Mặc định sản phẩm
-const defaultProducts = [
-  { img:'images/1.jpg', name:'Bộ Tam Đa', size:'Cao 75cm', price:'19,000,000₫', category:'tamda', desc:'Bộ tượng Tam Đa gốm men rạn, tượng trưng Phúc - Lộc - Thọ.' },
-  { img:'images/2.jpg', name:'Lục Bình', size:'Cao 2m2', price:'120,000,000₫', category:'lucbinh', desc:'Đôi lục bình men xanh, họa tiết sơn thủy cổ kính.' }
-];
-
-// Load sản phẩm từ localStorage
-function loadProducts(){
-  const stored = localStorage.getItem('myProducts');
-  if(stored){
-    productsData = JSON.parse(stored);
+// Load sản phẩm từ GitHub JSON
+async function loadProducts(){
+  try {
+    const res = await fetch(productsURL);
+    productsData = await res.json();
     renderProducts(productsData);
-  } else {
-    productsData = defaultProducts;
-    localStorage.setItem('myProducts', JSON.stringify(productsData));
-    renderProducts(productsData);
+  } catch(e) {
+    console.error('Không tải được sản phẩm:', e);
+    productsData = [];
   }
 }
 
@@ -134,7 +128,7 @@ function renderProducts(list){
   });
 }
 
-// Thêm sản phẩm
+// Thêm sản phẩm (chỉ hiển thị local, cần commit JSON trên GitHub để khách hàng thấy)
 function submitProduct(){
   const pwd = document.getElementById('form-password').value.trim();
   if(pwd !== PASSWORD){ alert('Sai mật khẩu!'); return;}
@@ -147,12 +141,10 @@ function submitProduct(){
   const desc=document.getElementById('prod-desc').value.trim();
   if(!img||!name||!size||!price||!category){ alert('Điền đủ thông tin!'); return;}
 
-  const newProd = {img,name,size,price,category,desc};
-  productsData.push(newProd);
-  localStorage.setItem('myProducts', JSON.stringify(productsData));
+  productsData.push({img,name,size,price,category,desc});
   renderProducts(productsData);
 
-  alert('Thêm sản phẩm thành công!');
+  alert('Đã thêm sản phẩm! Nhớ commit vào products.json trên GitHub để khách hàng thấy.');
   document.getElementById('prod-img').value='';
   document.getElementById('prod-name').value='';
   document.getElementById('prod-size').value='';
@@ -175,7 +167,7 @@ document.getElementById('form-toggle').addEventListener('click', ()=>{
   document.getElementById('add-form-container').classList.toggle('active');
 });
 
-// Load khi mở trang
+// Load sản phẩm khi mở web
 loadProducts();
 </script>
 </body>
