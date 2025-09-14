@@ -1,0 +1,42 @@
+[
+  {
+    "img": "images/1.jpg",
+    "name": "Tượng",
+    "size": "Cao 75cm",
+    "price": "19,000,000₫",
+    "category": "tuong",
+    "desc": "Tượng gốm men rạn, trưng bày đẹp."
+  },
+  {
+    "img": "images/1.jpg",
+    "name": "Tam Đa",
+    "size": "Cao 75cm",
+    "price": "19,000,000₫",
+    "category": "tamda",
+    "desc": "Bộ tượng Tam Đa gốm men rạn, tượng trưng Phúc - Lộc - Thọ."
+  },
+  {
+    "img": "images/2.jpg",
+    "name": "Lục Bình",
+    "size": "Cao 2m2",
+    "price": "120,000,000₫",
+    "category": "lucbinh",
+    "desc": "Đôi lục bình men xanh, họa tiết sơn thủy cổ kính."
+  },
+  {
+    "img": "images/3.jpg",
+    "name": "Chóe",
+    "size": "Cao 50cm",
+    "price": "8,500,000₫",
+    "category": "choe",
+    "desc": "Chóe gốm cổ men rạn."
+  },
+  {
+    "img": "images/3.jpg",
+    "name": "Hút Lộc",
+    "size": "Cao 50cm",
+    "price": "8,500,000₫",
+    "category": "hutloc",
+    "desc": "Chóe hút lộc, gốm men rạn."
+  }
+]
