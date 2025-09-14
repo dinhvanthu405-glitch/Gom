@@ -1,70 +1,182 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gốm Sứ Cao Cấp</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gốm Sứ Trung Quốc</title>
+<style>
+body { font-family:"Segoe UI",Arial,sans-serif; background:#f9f9f9; margin:0; padding:0; color:#333;}
+.topbar {background:linear-gradient(90deg,#d0ebff,#fefefe); text-align:center; padding:16px; font-size:20px; font-weight:bold; color:#2c3e50; border-bottom:1px solid #ddd; position:relative;}
+.topbar span {display:block; font-size:14px; font-weight:normal; margin-top:4px; color:#555;}
+#form-toggle {position:absolute; top:16px; right:16px; font-size:24px; cursor:pointer; color:#4a90e2;}
+header {background:#fff; padding:12px; box-shadow:0 1px 5px rgba(0,0,0,0.05); position:sticky; top:0; z-index:1000;}
+.menu {display:flex; flex-wrap:wrap; gap:8px; justify-content:center;}
+.menu button {padding:6px 12px; border:none; background:#eef5ff; border-radius:20px; cursor:pointer; font-size:13px; color:#34495e; transition:all 0.3s;}
+.menu button:hover {background:#dbe8ff;}
+.menu button.active {background:#4a90e2; color:#fff; font-weight:bold; box-shadow:0 2px 5px rgba(0,0,0,0.15);}
+.products {display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px; padding:18px;}
+.product {background:#fff; border:1px solid #eee; border-radius:12px; padding:14px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.05); transition:transform 0.3s, box-shadow 0.3s;}
+.product:hover {transform:translateY(-4px); box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+.product img {width:100%; border-radius:10px; height:180px; object-fit:cover;}
+.product h2 {font-size:17px; margin:8px 0 4px; color:#2c3e50;}
+.size {font-size:13px; color:#666; margin-bottom:4px;}
+.price {font-size:15px; font-weight:bold; color:#d9534f; margin-bottom:6px;}
+.desc {font-size:13px; color:#777; margin-bottom:8px;}
+.contact {display:inline-block; padding:6px 10px; background:#5cb85c; color:#fff; border-radius:20px; text-decoration:none; transition:background 0.3s; font-size:13px;}
+.contact:hover {background:#4cae4c;}
+.floating-buttons {position:fixed; bottom:20px; right:20px; display:flex; flex-direction:column; gap:10px; z-index:2000;}
+.floating-buttons a {display:flex; justify-content:center; align-items:center; width:50px; height:50px; border-radius:50%; color:#fff; font-size:22px; text-decoration:none; box-shadow:0 3px 8px rgba(0,0,0,0.2); transition:transform 0.3s, background 0.3s;}
+.call-btn {background:#28a745;}
+.call-btn:hover {background:#218838; transform:scale(1.1);}
+.zalo-btn {background:#0077ff;}
+.zalo-btn:hover {background:#005fcc; transform:scale(1.1);}
+
+/* Form thêm sản phẩm */
+#add-form-container {position:absolute; top:70px; left:50%; transform:translateX(-50%); width:95%; max-width:450px; background:#fff; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.2); padding:20px; opacity:0; pointer-events:none; transition:all 0.3s; z-index:1001;}
+#add-form-container.active {opacity:1; pointer-events:auto;}
+.add-form h3 {margin-top:0; font-size:18px; text-align:center;}
+.add-form input, .add-form textarea {width:100%; padding:12px; margin:6px 0 12px; border:1px solid #ccc; border-radius:8px; font-size:15px;}
+.add-form button {width:100%; padding:12px; background:#4a90e2; color:#fff; border:none; border-radius:25px; cursor:pointer; font-size:16px; transition:0.3s;}
+.add-form button:hover {background:#357ab8;}
+</style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="logo">🏺 Gốm Sứ</div>
-    <nav>
-      <a href="#home">Trang chủ</a>
-      <a href="#products">Sản phẩm</a>
-      <a href="#contact">Liên hệ</a>
-    </nav>
-  </header>
 
-  <!-- Banner -->
-  <section class="banner" id="home">
-    <h1>Bộ Sưu Tập Gốm Sứ Cao Cấp</h1>
-    <p>Tinh hoa thủ công – Sang trọng – Đẳng cấp</p>
-  </section>
+<div class="topbar">
+  🏺 Gốm Sứ Trung Quốc
+  <span>Liên hệ: 0816658163</span>
+  <div id="form-toggle">⚙️</div>
+</div>
 
-  <!-- Sản phẩm -->
-  <section id="products">
-    <h2>Sản phẩm nổi bật</h2>
-    <div class="product-grid">
-      <div class="product-card">
-        <img src="https://i.imgur.com/t6oWOXx.jpeg" alt="Bình gốm">
-        <h3>Bình gốm họa tiết</h3>
-        <p>Giá: 5,000,000đ</p>
-      </div>
-      <div class="product-card">
-        <img src="1.jpg" alt="Tượng gốm">
-        <h3>Tượng gốm nghệ thuật</h3>
-        <p>Giá: 8,000,000đ</p>
-      </div>
-      <div class="product-card">
-        <img src="images/3.jpg" alt="Bộ ấm chén">
-        <h3>Bộ ấm chén gốm</h3>
-        <p>Giá: 2,500,000đ</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer id="contact">
-    <p>📍 Địa chỉ: Làng gốm Bát Tràng, Hà Nội</p>
-    <p>📞 Hotline: <a href="tel:0123456789">0123 456 789</a></p>
-    <p>© 2025 Gốm Sứ Cao Cấp</p>
-  </footer>
-
-  <!-- Nút liên hệ nổi -->
-  <div class="floating-buttons">
-    <a href="tel:0123456789" class="call">📞</a>
-    <a href="https://zalo.me/0123456789" target="_blank" class="zalo">💬</a>
-    <a href="https://m.me/username" target="_blank" class="messenger">📱</a>
+<div id="add-form-container">
+  <div class="add-form">
+    <h3>Thêm sản phẩm</h3>
+    <input type="password" id="form-password" placeholder="Nhập mật khẩu để mở">
+    <input type="text" id="prod-img" placeholder="Link ảnh">
+    <input type="text" id="prod-name" placeholder="Tên sản phẩm">
+    <input type="text" id="prod-size" placeholder="Kích thước/Size">
+    <input type="text" id="prod-price" placeholder="Giá">
+    <input type="text" id="prod-category" placeholder="Category (không dấu)">
+    <textarea id="prod-desc" placeholder="Mô tả sản phẩm"></textarea>
+    <button onclick="submitProduct()">Thêm sản phẩm</button>
   </div>
+</div>
+
+<header>
+  <div class="menu" id="menu">
+    <button class="active" onclick="filterProducts('all', this)">Tất cả</button>
+    <button onclick="filterProducts('tuong', this)">Tượng</button>
+    <button onclick="filterProducts('tamda', this)">Tam Đa</button>
+    <button onclick="filterProducts('tranh2x11', this)">Tranh 2m x 1.1m</button>
+    <button onclick="filterProducts('tranh86x46', this)">Tranh 86cm x 46cm</button>
+    <button onclick="filterProducts('tranh80x28', this)">Tranh 80cm x 28cm</button>
+    <button onclick="filterProducts('tranh120x70', this)">Tranh 120cm x 70cm</button>
+    <button onclick="filterProducts('tranh233x133', this)">Tranh 2m33 x 1m33</button>
+    <button onclick="filterProducts('lucbinh', this)">Lục Bình</button>
+    <button onclick="filterProducts('choe', this)">Chóe</button>
+    <button onclick="filterProducts('hutloc', this)">Hút Lộc</button>
+    <button onclick="filterProducts('thong', this)">Thống</button>
+    <button onclick="filterProducts('dia', this)">Đĩa</button>
+    <button onclick="filterProducts('ktcao', this)">Đồ Kĩ Thuật Cao Cấp</button>
+    <button onclick="filterProducts('ang', this)">Ang</button>
+    <button onclick="filterProducts('bi', this)">Bí</button>
+    <button onclick="filterProducts('toi', this)">Tỏi</button>
+  </div>
+</header>
+
+<div class="products" id="product-list"></div>
+
+<div class="floating-buttons">
+  <a href="tel:0816658163" class="call-btn">📞</a>
+  <a href="https://zalo.me/0816658163" class="zalo-btn">💬</a>
+</div>
+
+<script>
+const PASSWORD = '1234';
+let productsData = [];
+
+// Mặc định sản phẩm
+const defaultProducts = [
+  { img:'images/1.jpg', name:'Bộ Tam Đa', size:'Cao 75cm', price:'19,000,000₫', category:'tamda', desc:'Bộ tượng Tam Đa gốm men rạn, tượng trưng Phúc - Lộc - Thọ.' },
+  { img:'images/2.jpg', name:'Lục Bình', size:'Cao 2m2', price:'120,000,000₫', category:'lucbinh', desc:'Đôi lục bình men xanh, họa tiết sơn thủy cổ kính.' }
+];
+
+// Load sản phẩm từ localStorage
+function loadProducts(){
+  const stored = localStorage.getItem('myProducts');
+  if(stored){
+    productsData = JSON.parse(stored);
+    renderProducts(productsData);
+  } else {
+    productsData = defaultProducts;
+    localStorage.setItem('myProducts', JSON.stringify(productsData));
+    renderProducts(productsData);
+  }
+}
+
+// Render sản phẩm
+function renderProducts(list){
+  const productList = document.getElementById('product-list');
+  productList.innerHTML='';
+  list.forEach(p=>{
+    const div=document.createElement('div');
+    div.className='product';
+    div.dataset.category=p.category;
+    div.innerHTML=`
+      <img src="${p.img}" alt="${p.name}">
+      <h2>${p.name}</h2>
+      <div class="size">${p.size}</div>
+      <div class="price">${p.price}</div>
+      <div class="desc">${p.desc}</div>
+      <a href="tel:0816658163" class="contact">Liên hệ</a>
+    `;
+    productList.appendChild(div);
+  });
+}
+
+// Thêm sản phẩm
+function submitProduct(){
+  const pwd = document.getElementById('form-password').value.trim();
+  if(pwd !== PASSWORD){ alert('Sai mật khẩu!'); return;}
+
+  const img=document.getElementById('prod-img').value.trim();
+  const name=document.getElementById('prod-name').value.trim();
+  const size=document.getElementById('prod-size').value.trim();
+  const price=document.getElementById('prod-price').value.trim();
+  const category=document.getElementById('prod-category').value.trim().toLowerCase();
+  const desc=document.getElementById('prod-desc').value.trim();
+  if(!img||!name||!size||!price||!category){ alert('Điền đủ thông tin!'); return;}
+
+  const newProd = {img,name,size,price,category,desc};
+  productsData.push(newProd);
+  localStorage.setItem('myProducts', JSON.stringify(productsData));
+  renderProducts(productsData);
+
+  alert('Thêm sản phẩm thành công!');
+  document.getElementById('prod-img').value='';
+  document.getElementById('prod-name').value='';
+  document.getElementById('prod-size').value='';
+  document.getElementById('prod-price').value='';
+  document.getElementById('prod-category').value='';
+  document.getElementById('prod-desc').value='';
+  document.getElementById('add-form-container').classList.remove('active');
+}
+
+// Filter sản phẩm
+function filterProducts(category, btn){
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = category==='all'?productsData:productsData.filter(p=>p.category===category);
+  renderProducts(filtered);
+}
+
+// Mở form
+document.getElementById('form-toggle').addEventListener('click', ()=>{
+  document.getElementById('add-form-container').classList.toggle('active');
+});
+
+// Load khi mở trang
+loadProducts();
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
