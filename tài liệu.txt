@@ -1,0 +1,772 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sách</title>
+
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            color: green;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 400px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        #ketqua {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <script>
+        function kiemTraDuLieu() {
+            let idsach = document.getElementById("idsach").value.trim();
+            let tensach = document.getElementById("tensach").value.trim();
+            let tacgia = document.getElementById("tacgia").value.trim();
+            let gia = document.getElementById("gia").value;
+            let uutien = document.getElementById("uutien").value;
+
+            if (idsach === "" || tensach === "" || tacgia === "" || gia === "" || uutien === "") {
+                alert("Không được để trống dữ liệu");
+                return false;
+            }
+
+            if (idsach.length > 10) {
+                alert("ID sách tối đa 10 ký tự");
+                return false;
+            }
+
+            if (tensach.length > 30) {
+                alert("Tên sách tối đa 30 ký tự");
+                return false;
+            }
+
+            if (tacgia.length > 50) {
+                alert("Tác giả tối đa 50 ký tự");
+                return false;
+            }
+
+            if (uutien != 1 && uutien != 2) {
+                alert("Nhóm ưu tiên chỉ được nhập 1 hoặc 2");
+                return false;
+            }
+
+            let thanhTien = parseFloat(gia);
+            if (uutien == 1) {
+                thanhTien += gia * 0.02;
+            } else {
+                thanhTien += gia * 0.05;
+            }
+
+            document.getElementById("ketqua").innerHTML =
+                "✅ Thêm sách thành công <br> Thành tiền: " + thanhTien + " VNĐ";
+
+            return false; // không submit server
+        }
+    </script>
+</head>
+<body>
+
+<h2>QUẢN LÝ SÁCH</h2>
+
+<form onsubmit="return kiemTraDuLieu();">
+    <label>ID Sách</label>
+    <input type="text" id="idsach" placeholder="Tối đa 10 ký tự">
+
+    <label>Tên sách</label>
+    <input type="text" id="tensach" placeholder="Tối đa 30 ký tự">
+
+    <label>Tác giả</label>
+    <input type="text" id="tacgia" placeholder="Tối đa 50 ký tự">
+
+    <label>Giá</label>
+    <input type="number" id="gia" placeholder="Nhập giá sách">
+
+    <label>Nhóm ưu tiên</label>
+    <input type="number" id="uutien" placeholder="Chỉ nhập 1 hoặc 2">
+
+    <button type="submit">Thêm sách</button>
+</form>
+
+<div id="ketqua"></div>
+
+</body>
+</html>
+
+
+
+
+<%@ page contentType="text/html; charset=UTF-8" %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm sách</title>
+
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 450px;
+            margin: 50px auto;
+            border: 2px solid green;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: green;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            width: 120px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn-save {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            color: green;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <script>
+        function validateForm() {
+            let masach = document.getElementById("masach").value.trim();
+            let tensach = document.getElementById("tensach").value.trim();
+            let tacgia = document.getElementById("tacgia").value.trim();
+            let ngaymuon = document.getElementById("ngaymuon").value;
+            let ngaytra = document.getElementById("ngaytra").value;
+
+            // Không được để trống
+            if (masach === "" || tensach === "" || tacgia === "" || ngaymuon === "" || ngaytra === "") {
+                alert("Bạn nhập dữ liệu chưa đúng");
+                return false;
+            }
+
+            // Độ dài mã sách
+            if (masach.length > 10) {
+                alert("Bạn nhập dữ liệu chưa đúng");
+                return false;
+            }
+
+            // Ngày mượn < ngày trả
+            if (ngaymuon >= ngaytra) {
+                alert("Bạn nhập dữ liệu chưa đúng");
+                return false;
+            }
+
+            return true; // hợp lệ thì cho gửi form
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2>THÊM SÁCH</h2>
+
+    <form onsubmit="return validateForm();">
+        <div class="form-group">
+            <label>Mã sách</label>
+            <input type="text" id="masach">
+        </div>
+
+        <div class="form-group">
+            <label>Tên sách</label>
+            <input type="text" id="tensach">
+        </div>
+
+        <div class="form-group">
+            <label>Tác giả</label>
+            <input type="text" id="tacgia">
+        </div>
+
+        <div class="form-group">
+            <label>Ngày mượn</label>
+            <input type="date" id="ngaymuon">
+        </div>
+
+        <div class="form-group">
+            <label>Ngày trả</label>
+            <input type="date" id="ngaytra">
+        </div>
+
+        <input type="submit" value="Lưu sách" class="btn-save">
+    </form>
+</div>
+
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Biểu mẫu khảo sát LANIT</title>
+
+</head>
+
+<form action="/submitSurvey" method="POST" onsubmit="validateForm(event)">
+
+<body>
+
+<h1>Biểu mẫu khảo sát LANIT</h1>
+
+<1-- Họ tên -->
+
+<div class="form-control">
+
+<h2>Họ và tên</h2>
+
+<input type="text" name="hoten" required placeholder="Nhập họ và tên" />
+
+</div>
+
+<!--Email-->
+
+<div class="form-control">
+
+<h2>Email</h2>
+
+<input type="email" name="email" required placeholder="Nhập email" />
+
+</div>
+
+<!-- Ngày, tháng, năm sinh -->
+
+<div class="form-control">
+
+<h2>Ngày sinh</h2>
+
+<div style="display: flex; gap: 10px;">
+
+<input
+
+/>
+
+type="number"
+
+name="ngay"
+
+min="1"
+
+max="31"
+
+placeholder="Ngày: 1-31"
+<select name="thang" required>
+
+<option value="">--Chọn tháng--</option>
+
+<option value="1">Tháng 1</option>
+
+<option value="2">Tháng 2</option>
+
+<option value="3">Tháng 3</option>
+
+<option value="4">Tháng 4</option>
+
+<option value="5">Tháng 5</option>
+
+<option value="6">Tháng 6</option>
+
+<option value="7">Tháng 7</option>
+
+<option value="8">Tháng 8</option>
+
+<option value="9">Tháng 9</option>
+
+<option value="10">Tháng 10</option>
+
+<option value="11">Tháng 11</option>
+
+<option value="12">Tháng 12</option>
+
+</select>
+
+<input
+
+type="number"
+
+id="nam"
+
+name="nam"
+
+min="1900"
+
+max="2025"
+
+placeholder="Năm: VD 1995"
+
+onchange="tinh TuoiTuNam()"
+
+/>
+
+</div>
+
+</div>
+
+<1-- Tuổi
+
+<div class="form-control">
+
+<h2>Tuổi</h2>
+
+<input type="number" id="tuoi" name="tuoi" readonly />
+
+</div>
+
+<1-- Tuổi -->
+
+<div class="form-control">
+
+<h2>Tuổi</h2>
+
+<input type="number" id="tuoi" name="tuoi" readonly />
+
+</div>
+
+<1-- Nghề nghiệp -->
+
+<div class="form-control">
+
+<h2>Hiện bạn đang là?</h2>
+
+<input type="radio" name="nghenghiep" value="sinhvien" /> Sinh viên <br />
+
+<input type="radio" name="nghenghiep" value="it" /> IT <br />
+
+<input type="radio" name="nghenghiep" value="vanphong" /> Nhân viên văn
+
+phòng <br />
+
+<input type="radio" name="nghenghiep" value="khac" /> Khác
+
+</div>
+
+<1- Ngôn ngữ lập trình -->
+
+<h2>Ngôn ngữ lập trình và framework bạn đã biết?</h2>
+
+<input type="checkbox" name="ngonngu" value="c" /> C <br />
+
+<div class="form-control">
+
+<input type="checkbox" name="ngonngu" value="c++" /> C++ <br />
+
+<input type="checkbox" name="ngonngu" value="python" /> Python <br />
+
+<input type="checkbox" name="ngonngu" value="c#" /> C# <br />
+
+<input type="checkbox" name="ngonngu" value="javascript" /> JavaScript
+
+</div>
+
+<1- Nút submit -->
+
+<button type="submit">Gửi khảo sát</button>
+
+</form>
+
+</body>
+
+</html>
+<script>
+
+function tinh TuoiTuNam() {
+
+const inputNam document.getElementById("nam");
+
+const inputTuoi document.getElementById("tuoi");
+
+const namSinh parseInt(inputNam.value);
+
+const namHienTai new Date().getFullYear();
+
+if (lisNaN(namSinh) && namSinh >= 1900 && namSinh <= namHienTai) {
+
+inputTuoi.value = namHienTai namSinh;
+
+} else {
+
+inputTuoi.value = "";
+
+}
+
+}
+
+function validateForm(event) {
+
+event.preventDefault(); // ngân form submit mặc định
+
+const form event.target;
+
+// Kiểm tra nghề nghiệp (radio) ít nhất 1 được chọn
+
+const nghenghiepChecked = form.querySelector('input[name="nghenghiep"]=
+
+if (InghenghiepChecked) {
+
+}
+
+alert("Vui lòng chọn nghề nghiệp.");
+
+return false;
+
+// Kiểm tra ngôn ngữ lập trình (checkbox) ít nhất 1 được chọn
+
+const ngonnguChecked form.querySelectorAll('input[name="ngonngu"]:che
+
+if (ngonnguChecked.length == 0) {
+
+}
+
+alert("Vui lòng chọn ít nhất một ngôn ngữ lập trình."); return false;
+
+// Nếu tới đây thì hợp lệ, submit form
+
+form.submit();
+
+} </script>
+<style>
+
+*... giữ nguyên CSS cũ... */
+
+body {
+
+}
+
+background-color: #0254e3;
+
+font-family: Verdana, sans-serif;
+
+text-align: center;
+
+margin: 0;
+
+padding: 0;
+
+form {
+
+}
+
+background-color: #fff;
+
+max-width: 600px;
+
+margin: 50px auto;
+
+padding: 30px 20px;
+
+border-radius: 8px;
+
+box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.3);
+
+text-align: left;
+
+h1 {
+
+text-align: center;
+
+} h2 {
+
+color: #0254e3;
+
+}
+
+}
+
+font-size: 18px;
+
+margin-top: 20px;
+
+margin-bottom: 10px;
+
+color: #333;
+
+form-control {
+
+margin-bottom: 20px;
+
+margin-right: 8px;
+
+.form-control input,
+
+.form-control select,
+
+.form-control textarea {
+
+}
+
+border: 1px solid #777;
+
+border-radius: 4px;
+
+font-family: inherit;
+
+padding: 10px;
+
+width: 95%;
+
+display: block;
+
+.form-control input[type="radio"],
+
+.form-control input[type="checkbox"] [
+
+display: inline-block;
+
+width: auto;
+
+} button {
+
+background-color: #0254e3; color: #fff;
+
+border: none;
+
+border-radius: 4px;
+
+font-family: inherit;
+
+font-size: 18px;
+
+font-weight: bold;
+
+display: block;
+
+width: 100%;
+
+padding: 12px;
+
+margin-top: 30px;
+
+cursor: pointer;
+
+button:hover { }
+
+background-color: #003da5;
+
+)
+
+</style>
+
+
+
+
+
+/* Cú pháp CSS cơ bản */
+selector {
+    property: value;   /* thuộc tính : giá trị */
+}
+
+/* Màu sắc */
+color: green;                 /* màu chữ */
+background-color: #f2f2f2;    /* màu nền */
+border-color: blue;           /* màu viền */
+
+/* Kích thước */
+width: 300px;                /* chiều rộng */
+height: 40px;                /* chiều cao */
+font-size: 16px;             /* cỡ chữ */
+
+/* Căn chỉnh */
+text-align: center;          /* căn giữa chữ */
+margin: auto;                /* căn giữa khối */
+display: flex;               /* các phần tử cùng 1 dòng */
+gap: 20px;                   /* khoảng cách giữa các phần tử */
+
+/* Khoảng cách */
+padding: 10px;               /* khoảng cách bên trong */
+margin: 15px;                /* khoảng cách bên ngoài */
+
+/* Viền */
+border: 1px solid black;     /* viền */
+border-radius: 5px;          /* bo góc */
+
+/* Chữ */
+font-family: Arial, sans-serif; /* kiểu chữ */
+font-weight: bold;              /* chữ đậm */
+
+/* Hiển thị */
+display: block;              /* hiển thị dạng khối */
+display: none;               /* ẩn phần tử */
+
+/* Input */
+input {
+    width: 100%;             /* rộng hết */
+    padding: 10px;           /* đệm */
+    border: 1px solid #ccc;  /* viền */
+}
+
+/* Button */
+button {
+    padding: 12px;           /* kích thước nút */
+    font-size: 16px;         /* cỡ chữ */
+    cursor: pointer;         /* con trỏ chuột */
+}
+
+/* Hiệu ứng hover */
+button:hover {
+    background-color: green; /* đổi màu nền */
+    color: white;            /* đổi màu chữ */
+}
+
+/* Form mẫu */
+form {
+    width: 400px;            /* rộng form */
+    margin: auto;            /* căn giữa */
+    padding: 20px;           /* khoảng cách trong */
+    border: 2px solid green; /* viền form */
+}
+
+
+
+button:active {
+    background-color: red;   /* khi bấm nút */
+}
+
+input:focus {
+    border-color: green;     /* khi click vào ô input */
+}
+
+input:disabled {
+    background-color: #ccc;  /* input bị khóa */
+}
+
+input:required {
+    border-color: blue;      /* trường bắt buộc */
+}
+
+input:invalid {
+    border-color: red;       /* nhập sai */
+}
+
+input:valid {
+    border-color: green;     /* nhập đúng */
+}
+
+input:checked {
+    outline: 2px solid green; /* radio / checkbox được chọn */
+}
+
+
+
+/* 1. Tên màu (dễ nhất) */
+color: red;
+color: green;
+color: blue;
+color: black;
+color: white;
+color: gray;
+color: yellow;
+color: orange;
+
+/* 2. Mã HEX (rất hay dùng) */
+color: #ff0000;      /* đỏ */
+color: #00ff00;      /* xanh lá */
+color: #0000ff;      /* xanh dương */
+color: #000000;      /* đen */
+color: #ffffff;      /* trắng */
+color: #cccccc;      /* xám */
+
+/* 3. RGB */
+color: rgb(255, 0, 0);     /* đỏ */
+color: rgb(0, 255, 0);     /* xanh lá */
+color: rgb(0, 0, 255);     /* xanh dương */
+
+/* 4. RGBA (có độ trong suốt) */
+background-color: rgba(0, 0, 0, 0.5);   /* đen mờ */
+background-color: rgba(0, 255, 0, 0.3); /* xanh mờ */
+
+/* 5. HSL */
+color: hsl(120, 100%, 50%);   /* xanh lá */
+color: hsl(0, 100%, 50%);     /* đỏ */
+
+/* 6. HSLA */
+background-color: hsla(240, 100%, 50%, 0.5); /* xanh dương mờ */
+
+
+
+
+form {
+    width: 400px;                     /* chiều rộng form */
+    margin: auto;                     /* căn giữa form theo chiều ngang */
+    padding: 20px;                    /* khoảng cách bên trong form */
+    border-radius: 10px;              /* bo tròn góc form */
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.2); /* đổ bóng cho form */
+}
+
+input {
+    padding: 10px;                    /* khoảng cách chữ với viền input */
+    border-radius: 5px;               /* bo tròn góc ô nhập */
+}
+
+button {
+    transition: 0.3s;                 /* tạo hiệu ứng chuyển động mượt */
+    cursor: pointer;                  /* đổi con trỏ chuột khi rê vào */
+}
