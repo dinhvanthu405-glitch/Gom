@@ -1,0 +1,224 @@
+Dưới đây là toàn bộ mã nguồn Python cho các bài toán từ 12 đến 21. Các đoạn mã được viết theo tiêu chí **ngắn gọn, tối ưu và dễ hiểu**, sử dụng các thư viện chuẩn của Python.
+### 12. Đếm số lần xuất hiện và tìm chữ cái xuất hiện nhiều nhất
+```python
+from collections import Counter
+import string
+
+def count_chars(text):
+    # Chỉ lọc ra các chữ cái và chuyển về dạng viết thường
+    chars = [c for c in text.lower() if c in string.ascii_lowercase]
+    counter = Counter(chars)
+    
+    print("Thống kê:", dict(counter))
+    if counter:
+        most_common, count = counter.most_common(1)[0]
+        print(f"Chữ cái xuất hiện nhiều nhất: '{most_common}' ({count} lần)")
+
+# Demo
+count_chars("Hello World! Thử nghiệm đếm chữ cái.")
+
+```
+### 13. Hàm tìm UCLN (Có tham số và Không tham số)
+```python
+import math
+
+# Có tham số
+def gcd_with_params(a, b):
+    return math.gcd(a, b)
+
+# Không tham số (Nhập dữ liệu trực tiếp từ bàn phím)
+def gcd_no_params():
+    a = int(input("Nhập a: "))
+    b = int(input("Nhập b: "))
+    print(f"UCLN của {a} và {b} là: {math.gcd(a, b)}")
+
+# Demo
+print("Có tham số:", gcd_with_params(24, 36))
+# gcd_no_params() # Bỏ comment để chạy thử
+
+```
+### 14. Tìm nghịch đảo mô-đun (Modular Inverse)
+Sử dụng thuật toán Euclid mở rộng tích hợp sẵn trong hàm pow() của Python 3.8+.
+```python
+def mod_inverse(a, m):
+    try:
+        return pow(a, -1, m)
+    except ValueError:
+        return "Không tồn tại nghịch đảo mô-đun (do gcd(a, m) != 1)"
+
+# Demo: Tìm x sao cho (3 * x) % 11 == 1
+print("Nghịch đảo của 3 mod 11 là:", mod_inverse(3, 11))
+
+```
+### 15. Mã hóa và giải mã Caesar
+```python
+def caesar(text, shift, decrypt=False):
+    if decrypt: shift = -shift
+    result = ""
+    for char in text:
+        if char.isalpha():
+            start = ord('A') if char.isupper() else ord('a')
+            result += chr((ord(char) - start + shift) % 26 + start)
+        else:
+            result += char
+    return result
+
+# Demo
+cipher = caesar("Hello Caesar", 3)
+print("Mã hóa:", cipher)
+print("Giải mã:", caesar(cipher, 3, decrypt=True))
+
+```
+### 16. Mã hóa và giải mã Vigenere
+```python
+def vigenere(text, key, decrypt=False):
+    result = []
+    key = key.lower()
+    key_idx = 0
+    for char in text:
+        if char.isalpha():
+            start = ord('A') if char.isupper() else ord('a')
+            shift = ord(key[key_idx % len(key)]) - ord('a')
+            if decrypt: shift = -shift
+            result.append(chr((ord(char) - start + shift) % 26 + start))
+            key_idx += 1
+        else:
+            result.append(char)
+    return "".join(result)
+
+# Demo
+cipher = vigenere("Hello Vigenere", "KEY")
+print("Mã hóa:", cipher)
+print("Giải mã:", vigenere(cipher, "KEY", decrypt=True))
+
+```
+### 17. Mã hóa và giải mã RSA (Cơ bản)
+```python
+# Chọn p, q nhỏ để minh họa tính toán. Trong thực tế p, q phải rất lớn.
+p, q = 61, 53
+n = p * q
+phi = (p - 1) * (q - 1)
+e = 65537
+d = pow(e, -1, phi) # Khóa bí mật
+
+def rsa_encrypt(msg, e, n):
+    return [pow(ord(c), e, n) for c in msg]
+
+def rsa_decrypt(cipher, d, n):
+    return "".join([chr(pow(c, d, n)) for c in cipher])
+
+# Demo
+msg = "RSA"
+cipher = rsa_encrypt(msg, e, n)
+print("Mã hóa RSA:", cipher)
+print("Giải mã RSA:", rsa_decrypt(cipher, d, n))
+
+```
+### 18. Mã hóa và giải mã Elgamal
+```python
+import random
+
+# Khởi tạo hệ thống
+p = 2423  # Số nguyên tố lớn
+g = 2     # Phần tử sinh
+x = 1234  # Khóa bí mật (x < p)
+y = pow(g, x, p) # Khóa công khai (p, g, y)
+
+def elgamal_encrypt(msg, p, g, y):
+    cipher = []
+    for c in msg:
+        k = random.randint(1, p - 2) # Khóa tạm thời
+        a = pow(g, k, p)
+        b = (ord(c) * pow(y, k, p)) % p
+        cipher.append((a, b))
+    return cipher
+
+def elgamal_decrypt(cipher, p, x):
+    msg = ""
+    for a, b in cipher:
+        s = pow(a, x, p) # s = a^x mod p
+        c = (b * pow(s, -1, p)) % p
+        msg += chr(c)
+    return msg
+
+# Demo
+cipher = elgamal_encrypt("ELGAMAL", p, g, y)
+print("Mã hóa Elgamal:", cipher)
+print("Giải mã Elgamal:", elgamal_decrypt(cipher, p, x))
+
+```
+### 19. Tạo và xác thực chữ ký RSA
+```python
+# Sử dụng lại khóa từ bài 17 (d là khóa bí mật để ký, e là khóa công khai để xác thực)
+import hashlib
+
+def rsa_sign(msg, d, n):
+    # Băm tin nhắn trước khi ký
+    h = int(hashlib.sha256(msg.encode()).hexdigest(), 16) % n
+    return pow(h, d, n)
+
+def rsa_verify(msg, signature, e, n):
+    h = int(hashlib.sha256(msg.encode()).hexdigest(), 16) % n
+    return pow(signature, e, n) == h
+
+# Demo
+msg = "Chữ ký số RSA"
+sig = rsa_sign(msg, d, n)
+print("Chữ ký:", sig)
+print("Xác thực hợp lệ?", rsa_verify(msg, sig, e, n))
+print("Xác thực thử với tin nhắn giả chỉnh sửa:", rsa_verify(msg + " fake", sig, e, n))
+
+```
+### 20. Tạo và xác thực chữ ký Elgamal
+```python
+import math, random
+
+p = 2423; g = 2; x = 1234; y = pow(g, x, p) # Giống bài 18
+
+def elgamal_sign(msg, p, g, x):
+    h = int(hashlib.sha256(msg.encode()).hexdigest(), 16) % (p - 1)
+    while True:
+        k = random.randint(1, p - 2)
+        if math.gcd(k, p - 1) == 1: break
+    a = pow(g, k, p)
+    k_inv = pow(k, -1, p - 1)
+    b = (k_inv * (h - x * a)) % (p - 1)
+    return (a, b)
+
+def elgamal_verify(msg, sig, p, g, y):
+    a, b = sig
+    if not (0 < a < p): return False
+    h = int(hashlib.sha256(msg.encode()).hexdigest(), 16) % (p - 1)
+    v1 = (pow(y, a, p) * pow(a, b, p)) % p
+    v2 = pow(g, h, p)
+    return v1 == v2
+
+# Demo
+msg = "Chữ ký Elgamal"
+sig = elgamal_sign(msg, p, g, x)
+print("Chữ ký (a, b):", sig)
+print("Xác thực hợp lệ?", elgamal_verify(msg, sig, p, g, y))
+
+```
+### 21. Trao đổi khóa Diffie-Hellman (Code ngắn nhất)
+Bản rút gọn siêu ngắn mô phỏng quá trình tạo khóa chung giữa Alice và Bob:
+```python
+import random
+
+# p: Số nguyên tố, g: gốc nguyên thủy công khai
+p, g = 23, 5
+
+# Khóa bí mật ngẫu nhiên của Alice (a) và Bob (b)
+a, b = random.randint(1, p), random.randint(1, p)
+
+# Khóa công khai gửi cho nhau
+A, B = pow(g, a, p), pow(g, b, p)
+
+# Tính toán khóa bí mật chung (Shared Secret Key) độc lập tại mỗi bên
+alice_shared = pow(B, a, p)
+bob_shared = pow(A, b, p)
+
+print(f"Khóa chung của Alice: {alice_shared} | Khóa chung của Bob: {bob_shared}")
+print("Trùng khớp?", alice_shared == bob_shared)
+
+```
