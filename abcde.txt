@@ -1,0 +1,139 @@
+Dưới đây là lời giải chi tiết, ngắn gọn và đúng quy chuẩn cho 11 bài tập Python tiếp theo của bạn (từ bài 1 đến bài 11).
+### 1. Chuyển đổi từ độ C sang độ F
+```python
+c = float(input("Nhập độ C: "))
+f = (9.0 / 5.0 * c) + 32
+print(f"{c}°C tương ứng với {f}°F")
+
+```
+### 2. Nhập mảng n phần tử, in mảng và tính tổng
+```python
+n = int(input("Nhập số phần tử n: "))
+arr = [int(input(f"Nhập phần tử thứ {i+1}: ")) for i in range(n)]
+
+print("Mảng vừa nhập:", arr)
+print("Tổng các phần tử trong mảng:", sum(arr))
+
+```
+### 3. Tìm giá trị lớn nhất trong 3 số nguyên
+```python
+a = int(input("Nhập số thứ nhất: "))
+b = int(input("Nhập số thứ hai: "))
+c = int(input("Nhập số thứ ba: "))
+
+print("Giá trị lớn nhất là:", max(a, b, c))
+
+```
+### 4. Nhập dãy số và sắp xếp tăng dần
+```python
+n = int(input("Nhập số phần tử n: "))
+A = [int(input(f"Nhập phần tử thứ {i+1}: ")) for i in range(n)]
+
+A.sort() # Sắp xếp tăng dần trực tiếp trên mảng A
+print("Dãy số sau khi sắp xếp tăng dần:", A)
+
+```
+### 5. Xóa số thứ k trong dãy số vừa nhập
+```python
+n = int(input("Nhập số phần tử n: "))
+arr = [int(input(f"Nhập số thứ {i+1}: ")) for i in range(n)]
+k = int(input(f"Nhập vị trí cần xóa k (từ 1 đến {n}): "))
+
+if 1 <= k <= n:
+    arr.pop(k - 1) # Xóa phần tử tại index k-1
+    print("Dãy số còn lại sau khi xóa:", arr)
+else:
+    print("Vị trí k không hợp lệ!")
+
+```
+### 6. Kiểm tra số nguyên tố
+```python
+import math
+
+def is_prime(n):
+    if n < 2: return False
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0: return False
+    return True
+
+num = int(input("Nhập vào một số nguyên không âm: "))
+if is_prime(num):
+    print(f"{num} là số nguyên tố.")
+else:
+    print(f"{num} không phải là số nguyên tố.")
+
+```
+### 7. Đổi xâu từ chữ thường sang chữ hoa
+```python
+s = input("Nhập vào một xâu: ")
+print("Xâu sau khi đổi sang chữ hoa:", s.upper())
+
+```
+### 8. Đổi xâu từ chữ hoa sang chữ thường
+```python
+s = input("Nhập vào một xâu: ")
+print("Xâu sau khi đổi sang chữ thường:", s.lower())
+
+```
+### 9. Đếm, in và tính trung bình các số chia hết cho cả 2 và 5
+> **Mẹo:** Số chia hết cho cả 2 và 5 thực chất là số chia hết cho 10.
+> 
+```python
+n = int(input("Nhập số phần tử n: "))
+arr = [int(input(f"Nhập số thứ {i+1}: ")) for i in range(n)]
+
+# Lọc các số chia hết cho cả 2 và 5 (chia hết cho 10)
+valid_nums = [x for x in arr if x % 10 == 0]
+
+print("Các số chia hết cho cả 2 và 5:", valid_nums)
+print("Số lượng các số thỏa mãn:", len(valid_nums))
+
+if valid_nums:
+    avg = sum(valid_nums) / len(valid_nums)
+    print("Trung bình cộng của các số đó:", avg)
+else:
+    print("Không có số nào chia hết cho cả 2 và 5.")
+
+```
+### 10. Kiểm tra tam giác, tính chu vi và diện tích (Heron)
+```python
+import math
+
+a = float(input("Nhập cạnh a: "))
+b = float(input("Nhập cạnh b: "))
+c = float(input("Nhập cạnh c: "))
+
+# Kiểm tra tính hợp lệ bằng bất đẳng thức tam giác
+if a + b > c and a + c > b and b + c > a:
+    p = (a + b + c) / 2 # Nửa chu vi
+    chu_vi = a + b + c
+    dien_tich = math.sqrt(p * (p - a) * (p - b) * (p - c)) # Công thức Heron
+    
+    print(f"Tam giác hợp lệ! Chu vi = {chu_vi}, Diện tích = {dien_tich:.2f}")
+else:
+    print("Ba cạnh nhập vào không tạo thành một tam giác hợp lệ.")
+
+```
+### 11. Tìm số ngày trong tháng của một năm
+```python
+month = int(input("Nhập tháng (1-12): "))
+year = int(input("Nhập năm: "))
+
+# Kiểm tra năm nhuận theo điều kiện đề bài cho
+is_leap = (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+
+if month in [1, 3, 5, 7, 8, 10, 12]:
+    days = 31
+elif month in [4, 6, 9, 11]:
+    days = 30
+elif month == 2:
+    days = 29 if is_leap else 28
+else:
+    days = None
+
+if days:
+    print(f"Tháng {month} năm {year} có {days} ngày.")
+else:
+    print("Tháng nhập vào không hợp lệ!")
+
+```
