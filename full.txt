@@ -1,0 +1,1301 @@
+Đề 9999999999
+Câu 1. Viết hàm tạo khóa mới Vigenere với bản rõ và khóa ban đầu nhập từ bản phim
+
+Câu 2. Việt chương trình tìm khóa công khai, khóa bi mật và xác thực chữ ki Elgamal với các giá trí p.a, x,k và bản rõ nhập từ bàn phim
+
+Câu 3. Nhập vào một mảng n số nguyên dương, đểm và in ra các số chia hết cho cả 3; 5 và 7, tính trung bình công của các số đó
+
+I
+
+Câu 1: Tạo khóa mới Vigenere
+
+# Hàm tạo khóa mới Vigenere
+
+def tao_khoa_moi(ban_ro, khoa):
+    khoa = khoa.upper()
+    khoa_moi = ""
+    j = 0
+
+    for char in ban_ro:
+        if char.isalpha():
+            khoa_moi += khoa[j % len(khoa)]
+            j += 1
+        else:
+            khoa_moi += char
+
+    return khoa_moi
+
+
+# Nhập dữ liệu
+ban_ro = input("Nhập bản rõ: ")
+khoa = input("Nhập khóa ban đầu: ")
+
+# Tạo khóa mới
+khoa_moi = tao_khoa_moi(ban_ro, khoa)
+
+print("Khóa mới:", khoa_moi)
+
+Ví dụ:
+
+Bản rõ: HELLOWORLD
+
+Khóa: KEY
+
+
+Kết quả:
+
+KEYKEYKEYK
+
+
+---
+
+Câu 2: Tìm khóa công khai, khóa bí mật và xác thực chữ ký ElGamal
+
+import hashlib
+
+# Hàm tìm nghịch đảo modulo
+def mod_inverse(a, m):
+    for i in range(1, m):
+        if (a * i) % m == 1:
+            return i
+    return None
+
+# Hàm băm
+def hash_message(message):
+    return int(hashlib.sha256(message.encode()).hexdigest(), 16)
+
+# Nhập dữ liệu
+p = int(input("Nhập p: "))
+a = int(input("Nhập a: "))
+x = int(input("Nhập khóa bí mật x: "))
+k = int(input("Nhập số ngẫu nhiên k: "))
+message = input("Nhập bản rõ: ")
+
+# Tạo khóa công khai
+y = pow(a, x, p)
+
+# Băm thông điệp
+H = hash_message(message)
+
+# Tạo chữ ký
+r = pow(a, k, p)
+
+k_inv = mod_inverse(k, p - 1)
+
+s = ((H - x * r) * k_inv) % (p - 1)
+
+print("\n===== KHÓA =====")
+print("Khóa công khai y =", y)
+print("Khóa bí mật x =", x)
+
+print("\n===== CHỮ KÝ =====")
+print("r =", r)
+print("s =", s)
+
+# Xác thực
+v1 = (pow(y, r, p) * pow(r, s, p)) % p
+v2 = pow(a, H, p)
+
+print("\n===== XÁC THỰC =====")
+print("v1 =", v1)
+print("v2 =", v2)
+
+if v1 == v2:
+    print("Chữ ký hợp lệ")
+else:
+    print("Chữ ký không hợp lệ")
+
+Công thức ElGamal:
+
+y=a^x \bmod p
+
+r=a^k \bmod p
+
+s=k^{-1}(H(m)-xr) \bmod (p-1)
+
+a^{H(m)} \equiv y^r r^s \pmod p
+
+
+---
+
+Câu 3: Đếm các số chia hết cho 3, 5 và 7, tính trung bình cộng
+
+# Nhập số lượng phần tử
+n = int(input("Nhập n: "))
+
+arr = []
+
+# Nhập mảng
+for i in range(n):
+    x = int(input(f"Nhập phần tử thứ {i+1}: "))
+    arr.append(x)
+
+# Tìm các số chia hết cho 3, 5 và 7
+ds = []
+
+for num in arr:
+    if num % 3 == 0 and num % 5 == 0 and num % 7 == 0:
+        ds.append(num)
+
+# In kết quả
+print("\nCác số chia hết cho 3, 5 và 7 là:")
+for x in ds:
+    print(x, end=" ")
+
+# Đếm
+dem = len(ds)
+print("\nSố lượng:", dem)
+
+# Tính trung bình cộng
+if dem > 0:
+    tbc = sum(ds) / dem
+    print("Trung bình cộng:", tbc)
+else:
+    print("Không có số phù hợp")
+    
+    
+ Đề 1000000000
+ Câu 1. Viết hàm tìm khóa Vigenere biết bản mã và bản rõ được nhập từ bản phím
+
+Câu 2. Viết chương trình tìm khóa công khai. khóa bí mật và giải mã RSA với các giá trị p. q. e và bản mã nhập từ bàn phim
+
+Câu 3. Nhập vào một mảng n số nguyên dương, đểm và in ra các số chia hết cho cả 5: 7 và 9, in và sắp xếp chúng theo thứ tự từ bé đến lớn
+    
+    Câu 1: Tìm khóa Vigenere khi biết bản mã và bản rõ
+
+# Hàm tìm khóa Vigenere
+
+def tim_khoa_vigenere(plain, cipher):
+    key = ""
+
+    plain = plain.upper()
+    cipher = cipher.upper()
+
+    for p, c in zip(plain, cipher):
+        if p.isalpha() and c.isalpha():
+            k = (ord(c) - ord(p)) % 26
+            key += chr(k + ord('A'))
+
+    return key
+
+
+# Nhập dữ liệu
+plain = input("Nhập bản rõ: ")
+cipher = input("Nhập bản mã: ")
+
+# Tìm khóa
+key = tim_khoa_vigenere(plain, cipher)
+
+print("Khóa Vigenere là:", key)
+
+Công thức tìm khóa:
+
+K_i=(C_i-P_i)\bmod 26
+
+
+---
+
+Câu 2: Tìm khóa công khai, khóa bí mật và giải mã RSA
+
+# Hàm tìm nghịch đảo modulo
+def mod_inverse(e, phi):
+    for d in range(1, phi):
+        if (e * d) % phi == 1:
+            return d
+    return None
+
+
+# Nhập dữ liệu
+p = int(input("Nhập p: "))
+q = int(input("Nhập q: "))
+e = int(input("Nhập e: "))
+c = int(input("Nhập bản mã c: "))
+
+# Tính n và phi
+n = p * q
+phi = (p - 1) * (q - 1)
+
+# Tìm khóa bí mật
+d = mod_inverse(e, phi)
+
+# Giải mã
+m = pow(c, d, n)
+
+# In kết quả
+print("\n===== RSA =====")
+print("Khóa công khai (e, n) =", (e, n))
+print("Khóa bí mật (d, n) =", (d, n))
+print("Bản rõ m =", m)
+
+Công thức RSA:
+
+n=pq
+
+\varphi(n)=(p-1)(q-1)
+
+d=e^{-1}\bmod \varphi(n)
+
+m=c^d \bmod n
+
+
+---
+
+Câu 3: Đếm và sắp xếp các số chia hết cho 5, 7 và 9
+
+# Nhập số lượng phần tử
+n = int(input("Nhập n: "))
+
+arr = []
+
+# Nhập mảng
+for i in range(n):
+    x = int(input(f"Nhập phần tử thứ {i+1}: "))
+    arr.append(x)
+
+# Tìm các số chia hết cho 5, 7 và 9
+ds = []
+
+for num in arr:
+    if num % 5 == 0 and num % 7 == 0 and num % 9 == 0:
+        ds.append(num)
+
+# Sắp xếp tăng dần
+ds.sort()
+
+# In kết quả
+print("\nCác số chia hết cho 5, 7 và 9 là:")
+for x in ds:
+    print(x, end=" ")
+
+print("\nSố lượng:", len(ds))
+
+
+
+Đề 222222
+Môn: An toàn hệ thống thông tin
+
+Đề 2.
+
+Câu 1. Viết chương trình mã hóa Cesar với khóa k và bản rõ nhập từ bàn phim
+
+Câu 2. Viết chương trình tìm khóa bi mật và khóa công khai của hệ mà RSA với các giá tri P.q. e nhập từ bàn phim
+
+Câu 3. Viết chương trình trao chuyền khóa Diffe Hellman, tim nội dung A gửi cho B. B gửi cho A, và khóa K chung. Các giá tri p.ga.b nhập từ bàn phím
+
+I
+
+Câu 1: Mã hóa Caesar
+
+# Hàm mã hóa Caesar
+
+def ma_hoa_caesar(ban_ro, k):
+    ket_qua = ""
+
+    for ky_tu in ban_ro:
+        if ky_tu.isalpha():
+            if ky_tu.isupper():
+                c = (ord(ky_tu) - ord('A') + k) % 26
+                ket_qua += chr(c + ord('A'))
+            else:
+                c = (ord(ky_tu) - ord('a') + k) % 26
+                ket_qua += chr(c + ord('a'))
+        else:
+            ket_qua += ky_tu
+
+    return ket_qua
+
+
+# Nhập dữ liệu
+ban_ro = input("Nhập bản rõ: ")
+k = int(input("Nhập khóa k: "))
+
+# Mã hóa
+ban_ma = ma_hoa_caesar(ban_ro, k)
+
+print("Bản mã:", ban_ma)
+
+Công thức Caesar:
+
+C=(P+k)\bmod 26
+
+
+---
+
+Câu 2: Tìm khóa công khai và khóa bí mật RSA
+
+# Hàm tìm nghịch đảo modulo
+def mod_inverse(e, phi):
+    for d in range(1, phi):
+        if (e * d) % phi == 1:
+            return d
+    return None
+
+
+# Nhập dữ liệu
+p = int(input("Nhập p: "))
+q = int(input("Nhập q: "))
+e = int(input("Nhập e: "))
+
+# Tính n và phi
+n = p * q
+phi = (p - 1) * (q - 1)
+
+# Tìm d
+d = mod_inverse(e, phi)
+
+# In kết quả
+print("\n===== KHÓA RSA =====")
+print("Khóa công khai (e, n) =", (e, n))
+print("Khóa bí mật (d, n) =", (d, n))
+
+Công thức RSA:
+
+n=pq
+
+\varphi(n)=(p-1)(q-1)
+
+d=e^{-1}\bmod \varphi(n)
+
+
+---
+
+Câu 3: Trao đổi khóa Diffie-Hellman
+
+# Chương trình Diffie-Hellman
+
+# Nhập dữ liệu
+p = int(input("Nhập p: "))
+g = int(input("Nhập g: "))
+a = int(input("Nhập khóa bí mật a của A: "))
+b = int(input("Nhập khóa bí mật b của B: "))
+
+# A gửi cho B
+A = pow(g, a, p)
+
+# B gửi cho A
+B = pow(g, b, p)
+
+# Tính khóa chung
+K_A = pow(B, a, p)
+K_B = pow(A, b, p)
+
+print("\n===== KẾT QUẢ =====")
+print("A gửi cho B:", A)
+print("B gửi cho A:", B)
+
+print("Khóa chung phía A:", K_A)
+print("Khóa chung phía B:", K_B)
+
+Công thức Diffie-Hellman:
+
+A=g^a \bmod p
+
+B=g^b \bmod p
+
+K=B^a \bmod p=A^b \bmod p
+
+
+
+Đề 4444444
+
+
+Câu 1. Viết chương trình nhập vào 3 số a b.c từ bàn phím, tìm số bé nhất, sắp xếp và in ra 3 số đó theo thứ tư từ lớn đến bé
+
+Câu 2. Viết chương trình tạo chữ kí Elgamal với các giá trị p.a, x.k và bản rõ nhập từ bàn phim (không phải kiểm tra tinh nguyên tố)
+
+Câu 3. Viết chương trình trao chuyển khóa Diffe-Hellman, tìm nội dung A gửi cho B, B gửi cho A, và khóa K chung. Các giá trị p.g.a.b nhập từ bàn phím
+ Câu 1: Nhập 3 số, tìm số bé nhất và sắp xếp giảm dần
+
+# Nhập 3 số
+a = int(input("Nhập a: "))
+b = int(input("Nhập b: "))
+c = int(input("Nhập c: "))
+
+# Tìm số bé nhất
+min_num = min(a, b, c)
+
+print("Số bé nhất là:", min_num)
+
+# Sắp xếp từ lớn đến bé
+ds = [a, b, c]
+ds.sort(reverse=True)
+
+print("Thứ tự từ lớn đến bé:")
+for x in ds:
+    print(x, end=" ")
+
+
+---
+
+Câu 2: Tạo chữ ký ElGamal
+
+import hashlib
+
+# Hàm tìm nghịch đảo modulo
+def mod_inverse(a, m):
+    for i in range(1, m):
+        if (a * i) % m == 1:
+            return i
+    return None
+
+# Hàm băm
+def hash_message(message):
+    return int(hashlib.sha256(message.encode()).hexdigest(), 16)
+
+# Nhập dữ liệu
+p = int(input("Nhập p: "))
+a = int(input("Nhập a: "))
+x = int(input("Nhập khóa bí mật x: "))
+k = int(input("Nhập số ngẫu nhiên k: "))
+message = input("Nhập bản rõ: ")
+
+# Khóa công khai
+y = pow(a, x, p)
+
+# Băm thông điệp
+H = hash_message(message)
+
+# Tạo chữ ký
+r = pow(a, k, p)
+
+k_inv = mod_inverse(k, p - 1)
+
+s = ((H - x * r) * k_inv) % (p - 1)
+
+print("\n===== CHỮ KÝ ELGAMAL =====")
+print("Khóa công khai y =", y)
+print("r =", r)
+print("s =", s)
+
+Công thức chữ ký ElGamal:
+
+r=a^k \bmod p
+
+s=k^{-1}(H(m)-xr) \bmod (p-1)
+
+
+---
+
+Câu 3: Trao đổi khóa Diffie-Hellman
+
+# Chương trình Diffie-Hellman
+
+# Nhập dữ liệu
+p = int(input("Nhập p: "))
+g = int(input("Nhập g: "))
+a = int(input("Nhập khóa bí mật a của A: "))
+b = int(input("Nhập khóa bí mật b của B: "))
+
+# A gửi cho B
+A = pow(g, a, p)
+
+# B gửi cho A
+B = pow(g, b, p)
+
+# Tính khóa chung
+K_A = pow(B, a, p)
+K_B = pow(A, b, p)
+
+print("\n===== KẾT QUẢ =====")
+print("A gửi cho B:", A)
+print("B gửi cho A:", B)
+
+print("Khóa chung phía A:", K_A)
+print("Khóa chung phía B:", K_B)
+
+Công thức Diffie-Hellman:
+
+A=g^a \bmod p
+
+B=g^b \bmod p
+
+K=B^a \bmod p=A^b \bmod p
+
+
+
+Đề77
+Môn: An toàn hệ thống thông tin
+
+Đ7
+
+Câu 1. Viết chương trình giải mã Vigenere với với bản mã và khóa nhập từ bản phím
+
+Câu 2. Viết chương trình giải mã RSA với p.g, e và bản mã nhập từ bàn phím
+
+Câu 3. Viết chương trình trao chuyền khóa Diffe-Hellman, tim nội dung A gửi cho B, B gửi cho A, và khóa K chung. Các giá trị p.g a b nhập từ bàn phím
+
+Câu 1: Giải mã Vigenere
+
+# Hàm giải mã Vigenere
+
+def giai_ma_vigenere(cipher, key):
+    result = ""
+    key = key.upper()
+    j = 0
+
+    for char in cipher:
+        if char.isalpha():
+            k = ord(key[j % len(key)]) - ord('A')
+
+            if char.isupper():
+                p = (ord(char) - ord('A') - k) % 26
+                result += chr(p + ord('A'))
+            else:
+                p = (ord(char) - ord('a') - k) % 26
+                result += chr(p + ord('a'))
+
+            j += 1
+        else:
+            result += char
+
+    return result
+
+
+# Nhập dữ liệu
+cipher = input("Nhập bản mã: ")
+key = input("Nhập khóa: ")
+
+# Giải mã
+plain = giai_ma_vigenere(cipher, key)
+
+print("Bản rõ:", plain)
+
+Công thức Vigenere:
+
+P_i=(C_i-K_i)\bmod 26
+
+
+---
+
+Câu 2: Giải mã RSA
+
+# Hàm tìm nghịch đảo modulo
+def mod_inverse(e, phi):
+    for d in range(1, phi):
+        if (e * d) % phi == 1:
+            return d
+    return None
+
+
+# Nhập dữ liệu
+p = int(input("Nhập p: "))
+q = int(input("Nhập q: "))
+e = int(input("Nhập e: "))
+c = int(input("Nhập bản mã c: "))
+
+# Tính n và phi(n)
+n = p * q
+phi = (p - 1) * (q - 1)
+
+# Tìm khóa bí mật d
+d = mod_inverse(e, phi)
+
+# Giải mã
+m = pow(c, d, n)
+
+print("\n===== GIẢI MÃ RSA =====")
+print("n =", n)
+print("phi =", phi)
+print("d =", d)
+print("Bản rõ m =", m)
+
+Công thức RSA:
+
+d=e^{-1}\bmod \varphi(n)
+
+m=c^d \bmod n
+
+
+---
+
+Câu 3: Trao đổi khóa Diffie-Hellman
+
+# Chương trình trao đổi khóa Diffie-Hellman
+
+# Nhập dữ liệu
+p = int(input("Nhập số nguyên tố p: "))
+g = int(input("Nhập căn nguyên thủy g: "))
+a = int(input("Nhập khóa bí mật của A: "))
+b = int(input("Nhập khóa bí mật của B: "))
+
+# A gửi cho B
+A = pow(g, a, p)
+
+# B gửi cho A
+B = pow(g, b, p)
+
+# Khóa chung
+K_A = pow(B, a, p)
+K_B = pow(A, b, p)
+
+print("\n===== TRAO ĐỔI KHÓA =====")
+print("A gửi cho B:", A)
+print("B gửi cho A:", B)
+
+print("\nKhóa chung phía A:", K_A)
+print("Khóa chung phía B:", K_B)
+
+Công thức Diffie-Hellman:
+
+A=g^a \bmod p
+
+B=g^b \bmod p
+
+K=B^a \bmod p=A^b \bmod p
+
+
+
+Đề 6
+Cậu 1. Việt hàm mã giải mã Cesar với bản mã và khóa nhập từ bàn phim
+
+Câu 2. Viết chương trình xác thực chữ kị Elgamal với các giả tri p,a, xk và bản rõ nhập từ bàn phím
+
+Câu 3. Nhập vào một mảng n số nguyên dương, đêm và in ra các số chia hệt cho cả 2 và 5, tỉnh trung bình các số đó
+# Hàm giải mã Caesar Cipher
+
+def giai_ma_caesar(ban_ma, khoa):
+    ket_qua = ""
+
+    for ky_tu in ban_ma:
+        if ky_tu.isalpha():  # Kiểm tra có phải chữ cái không
+            if ky_tu.isupper():
+                ket_qua += chr((ord(ky_tu) - ord('A') - khoa) % 26 + ord('A'))
+            else:
+                ket_qua += chr((ord(ky_tu) - ord('a') - khoa) % 26 + ord('a'))
+        else:
+            ket_qua += ky_tu  # Giữ nguyên ký tự khác
+
+    return ket_qua
+
+
+# Nhập dữ liệu từ bàn phím
+ban_ma = input("Nhập bản mã: ")
+khoa = int(input("Nhập khóa: "))
+
+# Giải mã
+ban_ro = giai_ma_caesar(ban_ma, khoa)
+
+print("Bản rõ sau giải mã:", ban_ro)
+
+Ví dụ:
+
+Bản mã: Khoor
+
+Khóa: 3
+
+
+Kết quả:
+
+Hello
+
+
+# Chương trình tạo và xác thực chữ ký ElGamal
+
+import hashlib
+from math import gcd
+
+# Hàm tìm nghịch đảo modulo
+def mod_inverse(a, m):
+    for i in range(1, m):
+        if (a * i) % m == 1:
+            return i
+    return None
+
+# Hàm băm bản rõ
+def hash_message(message):
+    return int(hashlib.sha256(message.encode()).hexdigest(), 16)
+
+# Nhập dữ liệu
+p = int(input("Nhập số nguyên tố p: "))
+a = int(input("Nhập phần tử sinh a: "))
+x = int(input("Nhập khóa bí mật x: "))
+k = int(input("Nhập số ngẫu nhiên k: "))
+message = input("Nhập bản rõ: ")
+
+# Kiểm tra gcd(k, p-1)
+if gcd(k, p - 1) != 1:
+    print("k không hợp lệ vì gcd(k, p-1) != 1")
+    exit()
+
+# Tạo khóa công khai
+y = pow(a, x, p)
+
+# Băm thông điệp
+H = hash_message(message)
+
+# Tạo chữ ký
+r = pow(a, k, p)
+
+k_inv = mod_inverse(k, p - 1)
+
+s = ((H - x * r) * k_inv) % (p - 1)
+
+print("\n===== CHỮ KÝ ELGAMAL =====")
+print("Khóa công khai y =", y)
+print("r =", r)
+print("s =", s)
+
+# ===== XÁC THỰC =====
+
+v1 = (pow(y, r, p) * pow(r, s, p)) % p
+v2 = pow(a, H, p)
+
+print("\n===== XÁC THỰC =====")
+print("v1 =", v1)
+print("v2 =", v2)
+
+if v1 == v2:
+    print("Chữ ký hợp lệ")
+else:
+    print("Chữ ký không hợp lệ")
+
+Công thức ElGamal:
+
+Khóa công khai:
+
+
+y=a^x \bmod p
+
+Tạo chữ ký:
+
+
+r=a^k \bmod p
+
+s=k^{-1}(H(m)-xr) \bmod (p-1)
+
+Xác thực:
+
+
+a^{H(m)} \equiv y^r r^s \pmod p
+
+
+# Nhập số lượng phần tử
+n = int(input("Nhập số lượng phần tử n: "))
+
+# Nhập mảng
+arr = []
+
+for i in range(n):
+    x = int(input(f"Nhập phần tử thứ {i+1}: "))
+    arr.append(x)
+
+# Tìm các số chia hết cho 2 và 5
+ds = []
+
+for num in arr:
+    if num % 2 == 0 and num % 5 == 0:
+        ds.append(num)
+
+# In kết quả
+print("\nCác số chia hết cho 2 và 5 là:")
+for x in ds:
+    print(x, end=" ")
+
+# Đếm số lượng
+dem = len(ds)
+print("\nSố lượng:", dem)
+
+# Tính trung bình
+if dem > 0:
+    tb = sum(ds) / dem
+    print("Trung bình cộng:", tb)
+else:
+    print("Không có số nào chia hết cho 2 và 5")
+   
+
+
+1. Đổi độ C sang độ F
+
+
+
+C = float(input("Nhập độ C: "))
+F = (9.0 / 5.0) * C + 32
+
+print("Độ F =", F)
+
+F=\frac{9}{5}C+32
+
+
+---
+
+2. Nhập mảng và tính tổng
+
+
+
+n = int(input("Nhập n: "))
+arr = []
+
+for i in range(n):
+    x = int(input(f"Nhập phần tử {i+1}: "))
+    arr.append(x)
+
+print("Mảng:", arr)
+print("Tổng =", sum(arr))
+
+
+---
+
+3. Tìm số lớn nhất trong 3 số
+
+
+
+a = int(input("Nhập a: "))
+b = int(input("Nhập b: "))
+c = int(input("Nhập c: "))
+
+print("Số lớn nhất =", max(a, b, c))
+
+
+---
+
+4. Sắp xếp mảng tăng dần
+
+
+
+n = int(input("Nhập n: "))
+arr = []
+
+for i in range(n):
+    arr.append(int(input()))
+
+arr.sort()
+
+print("Mảng tăng dần:")
+print(arr)
+
+
+---
+
+5. Xóa phần tử thứ k
+
+
+
+n = int(input("Nhập n: "))
+arr = []
+
+for i in range(n):
+    arr.append(int(input()))
+
+k = int(input("Nhập vị trí k cần xóa: "))
+
+if 0 <= k < n:
+    arr.pop(k)
+
+print("Mảng sau khi xóa:")
+print(arr)
+
+
+---
+
+6. Kiểm tra số nguyên tố
+
+
+
+n = int(input("Nhập số: "))
+
+kt = True
+
+if n < 2:
+    kt = False
+else:
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            kt = False
+            break
+
+if kt:
+    print("Là số nguyên tố")
+else:
+    print("Không phải số nguyên tố")
+
+
+---
+
+7. Đổi chữ thường thành chữ hoa
+
+
+
+s = input("Nhập xâu: ")
+
+print(s.upper())
+
+
+---
+
+8. Đổi chữ hoa thành chữ thường
+
+
+
+s = input("Nhập xâu: ")
+
+print(s.lower())
+
+
+---
+
+9. Đếm số chia hết cho 2 và 5, tính trung bình
+
+
+
+n = int(input("Nhập n: "))
+arr = []
+
+for i in range(n):
+    arr.append(int(input()))
+
+ds = []
+
+for x in arr:
+    if x % 2 == 0 and x % 5 == 0:
+        ds.append(x)
+
+print("Các số chia hết cho 2 và 5:", ds)
+print("Số lượng:", len(ds))
+
+if len(ds) > 0:
+    print("Trung bình =", sum(ds) / len(ds))
+
+
+---
+
+10. Kiểm tra tam giác, tính chu vi và diện tích
+
+
+
+import math
+
+a = float(input("Nhập cạnh a: "))
+b = float(input("Nhập cạnh b: "))
+c = float(input("Nhập cạnh c: "))
+
+if a + b > c and a + c > b and b + c > a:
+    p = a + b + c
+    s = p / 2
+
+    dt = math.sqrt(s * (s - a) * (s - b) * (s - c))
+
+    print("Chu vi =", p)
+    print("Diện tích =", dt)
+else:
+    print("Không phải tam giác")
+
+Công thức Heron:
+
+S=\sqrt{p(p-a)(p-b)(p-c)}
+
+
+---
+
+11. Tìm số ngày trong tháng
+
+
+
+thang = int(input("Nhập tháng: "))
+nam = int(input("Nhập năm: "))
+
+if thang in [1,3,5,7,8,10,12]:
+    print("31 ngày")
+
+elif thang in [4,6,9,11]:
+    print("30 ngày")
+
+elif thang == 2:
+    if (nam % 4 == 0 and nam % 100 != 0):
+        print("29 ngày")
+    else:
+        print("28 ngày")
+
+
+---
+
+12. Đếm số lần xuất hiện ký tự
+
+
+
+s = input("Nhập văn bản: ")
+
+dem = {}
+
+for ch in s:
+    if ch != " ":
+        dem[ch] = dem.get(ch, 0) + 1
+
+print(dem)
+
+max_char = max(dem, key=dem.get)
+
+print("Ký tự xuất hiện nhiều nhất:", max_char)
+
+
+---
+
+13. Hàm tìm UCLN
+
+
+
+# Có tham số
+def ucln(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+print(ucln(12, 18))
+
+
+# Không tham số
+def ucln2():
+    a = int(input("a = "))
+    b = int(input("b = "))
+
+    while b != 0:
+        a, b = b, a % b
+
+    print("UCLN =", a)
+
+ucln2()
+
+
+---
+
+14. Hàm tìm nghịch đảo modulo
+
+
+
+def mod_inverse(a, m):
+    for i in range(1, m):
+        if (a * i) % m == 1:
+            return i
+    return None
+
+a = int(input("Nhập a: "))
+m = int(input("Nhập modulo m: "))
+
+print("Nghịch đảo =", mod_inverse(a, m))
+
+
+---
+
+15. Mã hóa và giải mã Caesar
+
+
+
+def ma_hoa(text, k):
+    result = ""
+
+    for ch in text:
+        if ch.isalpha():
+            result += chr((ord(ch) - 65 + k) % 26 + 65)
+        else:
+            result += ch
+
+    return result
+
+
+def giai_ma(text, k):
+    return ma_hoa(text, -k)
+
+
+s = input("Nhập bản rõ: ").upper()
+k = int(input("Nhập khóa: "))
+
+c = ma_hoa(s, k)
+
+print("Bản mã:", c)
+print("Giải mã:", giai_ma(c, k))
+
+
+---
+
+16. Mã hóa và giải mã Vigenere
+
+
+
+def vigenere_encrypt(text, key):
+    result = ""
+    key = key.upper()
+    j = 0
+
+    for ch in text.upper():
+        if ch.isalpha():
+            k = ord(key[j % len(key)]) - 65
+            result += chr((ord(ch) - 65 + k) % 26 + 65)
+            j += 1
+        else:
+            result += ch
+
+    return result
+
+
+def vigenere_decrypt(text, key):
+    result = ""
+    key = key.upper()
+    j = 0
+
+    for ch in text.upper():
+        if ch.isalpha():
+            k = ord(key[j % len(key)]) - 65
+            result += chr((ord(ch) - 65 - k) % 26 + 65)
+            j += 1
+        else:
+            result += ch
+
+    return result
+
+
+text = input("Nhập bản rõ: ")
+key = input("Nhập khóa: ")
+
+c = vigenere_encrypt(text, key)
+
+print("Bản mã:", c)
+print("Giải mã:", vigenere_decrypt(c, key))
+
+
+---
+
+17. Mã hóa và giải mã RSA
+
+
+
+def mod_inverse(e, phi):
+    for d in range(1, phi):
+        if (e * d) % phi == 1:
+            return d
+
+p = int(input("p = "))
+q = int(input("q = "))
+e = int(input("e = "))
+m = int(input("m = "))
+
+n = p * q
+phi = (p - 1) * (q - 1)
+
+d = mod_inverse(e, phi)
+
+c = pow(m, e, n)
+m2 = pow(c, d, n)
+
+print("Bản mã:", c)
+print("Giải mã:", m2)
+
+
+---
+
+18. Mã hóa và giải mã ElGamal
+
+
+
+p = int(input("p = "))
+a = int(input("a = "))
+x = int(input("x = "))
+k = int(input("k = "))
+m = int(input("m = "))
+
+y = pow(a, x, p)
+
+c1 = pow(a, k, p)
+c2 = (m * pow(y, k, p)) % p
+
+print("Bản mã:", (c1, c2))
+
+s = pow(c1, x, p)
+
+s_inv = pow(s, -1, p)
+
+m2 = (c2 * s_inv) % p
+
+print("Giải mã:", m2)
+
+
+---
+
+19. Tạo và xác thực chữ ký RSA
+
+
+
+p = int(input("p = "))
+q = int(input("q = "))
+e = int(input("e = "))
+m = int(input("m = "))
+
+n = p * q
+phi = (p - 1) * (q - 1)
+
+for d in range(1, phi):
+    if (e * d) % phi == 1:
+        break
+
+s = pow(m, d, n)
+
+print("Chữ ký:", s)
+
+v = pow(s, e, n)
+
+if v == m:
+    print("Chữ ký hợp lệ")
+else:
+    print("Không hợp lệ")
+
+
+---
+
+20. Tạo và xác thực chữ ký ElGamal
+
+
+
+p = int(input("p = "))
+a = int(input("a = "))
+x = int(input("x = "))
+k = int(input("k = "))
+m = int(input("m = "))
+
+y = pow(a, x, p)
+
+r = pow(a, k, p)
+
+for i in range(1, p):
+    if (k * i) % (p - 1) == 1:
+        k_inv = i
+        break
+
+s = ((m - x * r) * k_inv) % (p - 1)
+
+print("Chữ ký:", (r, s))
+
+v1 = (pow(y, r, p) * pow(r, s, p)) % p
+v2 = pow(a, m, p)
+
+if v1 == v2:
+    print("Hợp lệ")
+else:
+    print("Không hợp lệ")
+
+
+---
+
+21. Trao đổi khóa Diffie-Hellman
+
+
+
+p = int(input("p = "))
+g = int(input("g = "))
+
+a = int(input("Khóa bí mật A: "))
+b = int(input("Khóa bí mật B: "))
+
+A = pow(g, a, p)
+B = pow(g, b, p)
+
+K1 = pow(B, a, p)
+K2 = pow(A, b, p)
+
+print("A gửi:", A)
+print("B gửi:", B)
+
+print("Khóa chung phía A:", K1)
+print("Khóa chung phía B:", K2)
+
+Công thức Diffie-Hellman:
+
+K=B^a \bmod p=A^b \bmod p 
+    
