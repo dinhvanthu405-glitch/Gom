@@ -1299,3 +1299,232 @@ Công thức Diffie-Hellman:
 
 K=B^a \bmod p=A^b \bmod p 
     
+                //////    CaesarMahoa.py
+
+xau = input("Nhập bản rõ cần mã hóa: ")
+k = int(input("Nhập khóa k: "))
+kq = ""
+
+for ch in xau:
+    if ch.isalpha(): # Nếu là chữ cái
+        base = ord('A') if ch.isupper() else ord('a')
+        moi = (ord(ch) - base + k) % 26
+        kq += chr(moi + base)
+    else:
+        kq += ch # Giữ nguyên ký tự đặc biệt/số
+
+print("Bản mã sau khi mã hóa:", kq)
+
+
+
+///////////CeasarGiaima.py
+
+xau = input("Nhập bản mã cần giải mã: ")
+k = int(input("Nhập khóa k: "))
+kq = ""
+
+for ch in xau:
+    if ch.isalpha(): # Nếu là chữ cái
+        base = ord('A') if ch.isupper() else ord('a')
+        moi = (ord(ch) - base - k) % 26
+        kq += chr(moi + base)
+    else:
+        kq += ch # Giữ nguyên ký tự đặc biệt/số
+
+print("Bản rõ sau khi giải mã:", kq)
+
+
+
+
+//////// DiffieHellman.py
+ # Bước 1: Nhập dữ liệu p, g, a, b
+p = int(input("Nhập p: "))
+g = int(input("Nhập g: "))
+a = int(input("Nhập a (bí mật A): "))
+b = int(input("Nhập b (bí mật B): "))
+
+# Bước 2: Tính giá trị trao đổi
+A_gui = pow(g, a, p) # A gửi cho B
+B_gui = pow(g, b, p) # B gửi cho A
+
+# Bước 3: Tính khóa chung K
+K1 = pow(B_gui, a, p) # Khóa tính theo A
+K2 = pow(A_gui, b, p) # Khóa tính theo B
+
+# Bước 4: In kết quả
+print("A gửi cho B:", A_gui)
+print("B gửi cho A:", B_gui)
+print("Khóa chung K:", K1)
+
+
+//////////ElGamalChuky.py
+
+import math
+p = int(input("Nhập p: "))
+a = int(input("Nhập a: "))
+x = int(input("Nhập khóa bí mật x: "))
+k = int(input("Nhập k: "))
+m = int(input("Nhập bản rõ m: "))
+
+y = pow(a, x, p) # Khóa công khai
+r = pow(a, k, p)
+# Tìm k_nghich_dao mod (p-1)
+k_nd = -1
+for i in range(1, p-1):
+    if (k * i) % (p-1) == 1:
+        k_nd = i; break
+
+s = ((m - x*r) * k_nd) % (p-1)
+print("Chữ ký (r, s) =", (r, s))
+
+# Xác minh: a^m mod p == (y^r * r^s) mod p
+vt = pow(a, m, p)
+vp = (pow(y, r, p) * pow(r, s, p)) % p
+print("Xác minh:", "Hợp lệ" if vt == vp else "Không hợp lệ")
+
+//////////ElGamalGiaima.py
+
+p = int(input("Nhập p: "))
+a = int(input("Nhập a: "))
+x = int(input("Nhập khóa bí mật x: "))
+
+y = pow(a, x, p) # Khóa công khai
+print("Khóa công khai y =", y)
+
+# Nhập bản mã
+c1 = int(input("Nhập bản mã C1 cần giải mã: "))
+c2 = int(input("Nhập bản mã C2 cần giải mã: "))
+
+# Giải mã (Phục hồi khóa K)
+K = pow(c1, x, p)
+
+# Tìm nghịch đảo modulo của K mod p (Dùng Định lý Fermat nhỏ vì p là số nguyên tố)
+K_nd = pow(K, p - 2, p)
+
+# Phục hồi bản rõ m
+m = (c2 * K_nd) % p
+
+print("Bản rõ sau khi giải mã m =", m)
+
+//////////ElGamalMahoa.py
+
+p = int(input("Nhập p: "))
+a = int(input("Nhập a: "))
+x = int(input("Nhập khóa bí mật x: "))
+
+y = pow(a, x, p) # Khóa công khai
+print("Khóa công khai y =", y)
+
+m = int(input("Nhập bản rõ m cần mã hóa: "))
+k = int(input("Nhập k: "))
+
+# Mã hóa
+c1 = pow(a, k, p)
+K = pow(y, k, p)
+c2 = (m * K) % p
+
+print("Bản mã C1 =", c1)
+print("Bản mã C2 =", c2)
+print("Bản mã gửi đi (C1, C2) = (", c1, ",", c2, ")")
+
+//////////RSAChuky.py
+
+p = int(input("Nhập p: "))
+q = int(input("Nhập q: "))
+e = int(input("Nhập e: "))
+n = p * q
+phi = (p - 1) * (q - 1)
+
+d = pow(e, -1, phi)
+
+print("Khóa công khai: (", e, ",", n, ")")
+print("Khóa bí mật d =", d)
+
+#Tạo chữ kí
+m = int(input("Nhập bản rõ M: "))
+ck = pow(m, d, n) # Tạo chữ ký
+xm = pow(ck, e, n) # Xác minh
+print("Chữ ký S =", ck)
+
+///////////RSAGiaima.py
+
+p = int(input("Nhập p: "))
+q = int(input("Nhập q: "))
+e = int(input("Nhập e: "))
+n = p * q
+phi = (p - 1) * (q - 1)
+
+d = pow(e, -1, phi)
+
+print("Khóa công khai: (", e, ",", n, ")")
+print("Khóa bí mật d =", d)
+
+#Giai ma
+g = int(input("Nhập bản mã C cần giải mã: "))
+br = pow(g, d, n)
+print("Bản rõ sau khi giải mã:", br)
+
+///////////RSAMahoa.py
+
+p = int(input("Nhập p: "))
+q = int(input("Nhập q: "))
+e = int(input("Nhập e: "))
+n = p * q
+phi = (p - 1) * (q - 1)
+
+d = pow(e, -1, phi)
+
+print("Khóa công khai: (", e, ",", n, ")")
+print("Khóa bí mật d =", d)
+
+
+m = int(input("Nhập bản rõ M cần mã hóa: "))
+c = pow(m, e, n)
+print("Bản mã C sau khi mã hóa:", c)
+
+////////////VigenereGiaima.py
+
+br = input("Nhập chuỗi: ")
+k = input("Nhập khóa: ").upper()
+k_day = "" # Tạo dòng khóa dài bằng chuỗi
+j = 0
+for ch in br:
+    if ch.isalpha():
+        k_day += k[j % len(k)]
+        j += 1
+    else: k_day += ch
+
+#Giai ma
+bm = ""
+for i in range(len(br)):
+    if br[i].isalpha():
+        base = ord('A') if br[i].isupper() else ord('a')
+        # Đã gom độ dời của khóa vào trong ngoặc tròn
+        x = (ord(br[i]) - base - (ord(k_day[i]) - ord('A'))) % 26
+        bm += chr(x + base) # Sửa thành dấu +
+    else:
+        bm += br[i] # Sửa thành dấu +
+print("Bản mã:", bm)
+
+
+////////////VigenereMahoa.py
+
+br = input("Nhập chuỗi: ")
+k = input("Nhập khóa: ").upper()
+k_day = "" # Tạo dòng khóa dài bằng chuỗi
+j = 0
+for ch in br:
+    if ch.isalpha():
+        k_day += k[j % len(k)]
+        j += 1
+    else: k_day += ch
+
+# --- NẾU ĐỀ HỎI MÃ HÓA (Đề 9) ---
+bm = ""
+for i in range(len(br)):
+    if br[i].isalpha():
+        base = ord('A') if br[i].isupper() else ord('a')
+        x = (ord(br[i]) - base + ord(k_day[i]) - ord('A')) % 26
+        bm += chr(x + base)
+    else: bm += br[i]
+print("Bản mã:", bm)
